@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Formulario.css';
 
 function Formulario({ setAlto,setLargo,setAncho, setVolumen, setProfundidad, setCarga, setRecomendaciones, setImagen, onSubmit, alto, largo, ancho }) {
   const [suelo, setSuelo] = useState('nada_cohesivos');
@@ -83,33 +84,35 @@ function Formulario({ setAlto,setLargo,setAncho, setVolumen, setProfundidad, set
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className="formulario-container">
+
+          <form onSubmit={handleSubmit} className="formulario">
       <div>
         <label>Alto (m): </label>
         <input
           type="number"
           value={alto}
            min="1"
-          onChange={(e) => setAlto(e.target.value)}
-        />
+           onChange={(e) => setAlto(e.target.value)}
+           />
       </div>
       <div>
         <label>Largo (m): </label>
         <input
           type="number"
           value={largo}
-           min="1"
+          min="1"
           onChange={(e) => setLargo(e.target.value)}
-        />
+          />
       </div>
       <div>
         <label>Ancho (m): </label>
         <input
           type="number"
           value={ancho}
-           min="1"
+          min="1"
           onChange={(e) => setAncho(e.target.value)}
-        />
+          />
       </div>
       <div>
         <label>Tipo de suelo: </label>
@@ -133,6 +136,7 @@ function Formulario({ setAlto,setLargo,setAncho, setVolumen, setProfundidad, set
 
       <button type="submit">Calcular</button>
     </form>
+          </div>
   );
 }
 

@@ -1,0 +1,48 @@
+/* Contenedor del formulario */
+.formulario-container {
+    
+    /* Centra el formulario en pantallas pequeñas */
+    align-items: center;
+    height: 100vh; /* Para ocupar toda la altura de la pantalla */
+    padding: 0 20px;
+    flex-direction: column;
+  }
+  
+  /* Formulario y sus campos */
+  .formulario {
+    width: 100%;
+    max-width: 300px; /* Controla el tamaño máximo del formulario */
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .formulario div {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .formulario label {
+    margin-bottom: 5px;
+    font-size: 1rem;
+  }
+  
+  .formulario input,
+  .formulario select {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%; /* Asegura que los inputs ocupen el 100% del ancho disponible */
+  }
+  
+  /* Para pantallas pequeñas */
+  @media (max-width: 768px) {
+    .formulario-container {
+      justify-content: center; /* Centra el formulario en pantallas más pequeñas */
+      padding: 0;
+    }
+  }
+  

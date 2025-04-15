@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Formulario from './Formulario';
 import Calculo from './Calculo';
+import './Submuracion.css';
 
 function Submuracion() {
   const [volumen, setVolumen] = useState(null);
@@ -75,6 +76,7 @@ function Submuracion() {
 
   return (
     <div>
+        <h3>Calculos de Submuración</h3>
        <Formulario 
         setVolumen={setVolumen} 
         setProfundidad={setProfundidad} 
@@ -91,33 +93,36 @@ function Submuracion() {
       />
 
       {volumen && profundidad && carga && (
-        <div>
-          <h2>Resultados de Submuración</h2>
-          <p>Volumen de excavación: {volumen} m³</p>
-          <p>Profundidad de Excavación: {profundidad}</p>
-          <p>Carga de la estructura: {carga}</p>
+        <div className="resultados-container">
+          <div className="resultados">
+            <h3>Resultados de Submuración</h3>
+            <p>Volumen de excavación: {volumen} m³</p>
+            <p>Profundidad de Excavación: {profundidad}</p>
+            <p>Carga de la estructura: {carga}</p>          
+          </div>
 
-          <h3>Recomendaciones:</h3>
-          {/* Mostrar cada recomendación en un párrafo separado */}
-          {recomendaciones.map((recomendacion, index) => (
+          <div className="recomendaciones">
+            <h3>Recomendaciones:</h3>
+            {/* Mostrar cada recomendación en un párrafo separado */}
+            {recomendaciones.map((recomendacion, index) => (
             <p key={index}>{recomendacion}</p>
-          ))}
-
-          {/* Mostrar el cálculo de esponjamiento */}
-          <Calculo 
-            volumenOriginal={volumen} 
-            coeficiente={datosSuelo.esponjamiento} 
-            volumenCimiento={1.78}  // Volumen del cimiento (ejemplo estático)
-            coeficienteComp={datosSuelo.compactacion}  // Coeficiente de compactación dinámico
-            ancho={ancho}  // Pasamos los valores de ancho
-            alto={alto}    // Pasamos los valores de alto
-            largo={largo}  // Pasamos los valores de largo
-          />
-
-          {/* Mostrar la imagen correspondiente */}
-          {imagen && <img src={imagen} alt="Tipo de suelo" />}
+            ))}
+        </div>
         </div>
       )}
+      {/* Mostrar el cálculo de esponjamiento */}
+      <Calculo 
+        volumenOriginal={volumen} 
+        coeficiente={datosSuelo.esponjamiento} 
+        volumenCimiento={1.78}  // Volumen del cimiento (ejemplo estático)
+        coeficienteComp={datosSuelo.compactacion}  // Coeficiente de compactación dinámico
+        ancho={ancho}  // Pasamos los valores de ancho
+        alto={alto}    // Pasamos los valores de alto
+        largo={largo}  // Pasamos los valores de largo
+      />
+
+      {/* Mostrar la imagen correspondiente */}
+      {imagen && <img src={imagen} alt="Tipo de suelo" />}
     </div>
   );
 }

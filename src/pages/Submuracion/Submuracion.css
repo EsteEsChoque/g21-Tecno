@@ -1,9 +1,67 @@
-.submuracion {
-    padding: 20px;
-    background-color: #f4f4f4;
+/* Contenedor de los resultados y recomendaciones */
+.resultados-container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px; /* Espacio entre los elementos */
+    align-items: flex-start;
+    position: absolute; /* Posición inicial en la parte superior */
+    top: 130px; /* Aleja de la parte superior */
+    left: 400px; /* Ubica en la parte derecha */
+    width: auto;
+    flex-direction: column;
   }
   
-  .submuracion h1 {
-    color: #333;
+  .resultados {
+    width: 80%; /* Controla el ancho de los resultados */
+  }
+  
+  .recomendaciones {
+    width: 90%; /* Controla el ancho de las recomendaciones */
+    border: 4px solid black;
+    padding: 8px;
+    height: 300px; /* Tamaño fijo para el borde */
+
+  }
+  
+  /* Estilos para los resultados */
+  .resultados h3 {
+    margin-bottom: 10px;
+  }
+  
+  .resultados p {
+    margin: 5px 0;
+  }
+  
+  /* Responsividad para pantallas pequeñas */
+  @media (max-width: 900px) {
+    .recomendaciones {
+        height: 350px; /* Tamaño fijo para el borde */
+      }
+}
+@media (max-width: 818px) {
+    .recomendaciones {
+        height: 400px; /* Tamaño fijo para el borde */
+      }
+}
+  @media (max-width: 768px) {
+    .resultados-container {
+      position: relative; /* Cambia a 'relative' para quitar la posición absoluta */
+      flex-direction: column; /* Cambia a disposición en columna */
+      align-items: center; /* Centra todo el contenido */
+      margin-top: -300px; /* Espacio adicional si es necesario */
+      left: 0; /* Restablece el valor de 'left' */
+      top: auto; /* Evita la fijación del 'top' */
+    }
+  
+    .resultados,
+    .recomendaciones {
+      width: 80%; /* Hace que los elementos ocupen todo el ancho disponible */
+      text-align: center; /* Centra el texto en dispositivos pequeños */
+    }
+  
+    .recomendaciones {
+      margin-top: 20px; /* Agrega un espacio entre los resultados y las recomendaciones */
+      height: auto; /* Deja que el tamaño de las recomendaciones se ajuste automáticamente */
+    }
   }
   
