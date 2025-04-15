@@ -5,3 +5,12 @@
     padding: 10px;
   }
   
+  .footer ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .footer ul li {
+    margin: 5px 0;
+  }
+  
