@@ -91,8 +91,10 @@ function Submuracion() {
         setLargo={setLargo}
         setAncho={setAncho}
       />
-
       {volumen && profundidad && carga && (
+          
+          <div>
+
         <div className="resultados-container">
           <div className="resultados">
             <h3>Resultados de Submuración</h3>
@@ -105,24 +107,28 @@ function Submuracion() {
             <h3>Recomendaciones:</h3>
             {/* Mostrar cada recomendación en un párrafo separado */}
             {recomendaciones.map((recomendacion, index) => (
-            <p key={index}>{recomendacion}</p>
+                <p key={index}>{recomendacion}</p>
             ))}
         </div>
+          </div>
+        {/* Mostrar el cálculo de esponjamiento */}
+        <div>
+        <Calculo 
+          volumenOriginal={volumen} 
+          coeficiente={datosSuelo.esponjamiento} 
+          volumenCimiento={1.78}  // Volumen del cimiento (ejemplo estático)
+          coeficienteComp={datosSuelo.compactacion}  // Coeficiente de compactación dinámico
+          ancho={ancho}  // Pasamos los valores de ancho
+          alto={alto}    // Pasamos los valores de alto
+          largo={largo}  // Pasamos los valores de largo
+          />
+          
+  
+        {/* Mostrar la imagen correspondiente */}
+        {imagen && <img src={imagen} alt="Tipo de suelo" />}
+          </div>
         </div>
       )}
-      {/* Mostrar el cálculo de esponjamiento */}
-      <Calculo 
-        volumenOriginal={volumen} 
-        coeficiente={datosSuelo.esponjamiento} 
-        volumenCimiento={1.78}  // Volumen del cimiento (ejemplo estático)
-        coeficienteComp={datosSuelo.compactacion}  // Coeficiente de compactación dinámico
-        ancho={ancho}  // Pasamos los valores de ancho
-        alto={alto}    // Pasamos los valores de alto
-        largo={largo}  // Pasamos los valores de largo
-      />
-
-      {/* Mostrar la imagen correspondiente */}
-      {imagen && <img src={imagen} alt="Tipo de suelo" />}
     </div>
   );
 }
