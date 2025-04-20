@@ -16,6 +16,18 @@ function Submuracion() {
    const [largo, setLargo] = useState('');
    const [ancho, setAncho] = useState('');
 
+   // Estados para esquinas
+  const [esquinas, setEsquinas] = useState([]);
+  const [nuevaEsquina, setNuevaEsquina] = useState({ volumen: '', repeticiones: '' });
+
+  // Estados para lados
+  const [lados, setLados] = useState([]);
+  const [nuevoLado, setNuevoLado] = useState({ ancho: '', repeticiones: '' });
+
+  const [banquina, setBanquina] = useState('1');
+  const banquinaNumerica = parseFloat(banquina);
+console.log(datosSuelo, "----------------");
+
   // Manejo del formulario
   const handleFormularioSubmit = (sueloSeleccionado, volumenOriginal, datosSuelo) => {
     setDatosSuelo(datosSuelo);
@@ -90,6 +102,21 @@ function Submuracion() {
         setAlto={setAlto}
         setLargo={setLargo}
         setAncho={setAncho}
+
+        // Props para esquinas
+        esquinas={esquinas}
+        setEsquinas={setEsquinas}
+        nuevaEsquina={nuevaEsquina}
+        setNuevaEsquina={setNuevaEsquina}
+
+        // Props para lados
+        lados={lados}
+        setLados={setLados}
+        nuevoLado={nuevoLado}
+        setNuevoLado={setNuevoLado}
+
+        banquina={banquina}
+        setBanquina={setBanquina}
       />
       {volumen && profundidad && carga && (
           
@@ -121,6 +148,10 @@ function Submuracion() {
           ancho={ancho}  // Pasamos los valores de ancho
           alto={alto}    // Pasamos los valores de alto
           largo={largo}  // Pasamos los valores de largo
+
+          banquina={banquinaNumerica}
+          lados={lados}
+          esquinas={esquinas}
           />
           
   

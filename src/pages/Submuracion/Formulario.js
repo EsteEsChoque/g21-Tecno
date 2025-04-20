@@ -1,142 +1,181 @@
 import React, { useState } from 'react';
 import './Formulario.css';
+import Formulario2 from './Formulario2';
 
-function Formulario({ setAlto,setLargo,setAncho, setVolumen, setProfundidad, setCarga, setRecomendaciones, setImagen, onSubmit, alto, largo, ancho }) {
+function Formulario({
+  setAlto,
+  setLargo,
+  setAncho,
+  setVolumen,
+  setProfundidad,
+  setCarga,
+  setRecomendaciones,
+  setImagen,
+  onSubmit,
+  alto,
+  largo,
+  ancho,
+  esquinas,
+  setEsquinas,
+  nuevaEsquina,
+  setNuevaEsquina,
+  lados,
+  setLados,
+  nuevoLado,
+  setNuevoLado,
+  banquina,
+  setBanquina
+}) {
   const [suelo, setSuelo] = useState('nada_cohesivos');
   const [carga, setCargaState] = useState('alta');
 
-  // Datos por tipo de suelo
+  // Información por tipo de suelo
   const sueloDatos = {
     nada_cohesivos: {
+      suelo: "nada cohesivos",
       angulo: '35°',
       esponjamiento: '10%',
-      compactacion: '1.05', // Valor de compactación agregado
+      compactacion: '1.05',
       descripcion: 'Sin consistencia',
       composicion: 'Grava, arena seca, rellenos',
       herramienta: 'Pala ancha',
-      imagen: '/image1.PNG', 
+      imagen: '/image1.PNG',
     },
     poco_cohesivos: {
+      suelo: "poco cohesivos",
       angulo: '45°',
       esponjamiento: '20%',
-      compactacion: '1.05', // Valor de compactación agregado
+      compactacion: '1.05',
       descripcion: 'Desmoronables',
       composicion: 'Greda, arena mojada, tierra vegetal',
       herramienta: 'Pala de punta',
       imagen: '/image2.PNG',
     },
     medianamente_cohesivos: {
+      suelo: "medianamente cohesivos",
       angulo: '65°',
       esponjamiento: '30%',
-      compactacion: '1.10', // Valor de compactación agregado
+      compactacion: '1.10',
       descripcion: 'Blando pero resistente',
       composicion: 'Arcillas pegajizas, tierra colorada',
       herramienta: 'Pico',
       imagen: '/image3.PNG',
     },
     muy_cohesivos: {
+      suelo: "muy cohesivos",
       angulo: '75°',
       esponjamiento: '40%',
-      compactacion: '1.15', // Valor de compactación agregado
+      compactacion: '1.15',
       descripcion: 'Duros y resistentes',
       composicion: 'Tosca, rocas blandas',
       herramienta: 'Pico y barra',
       imagen: '/image4.PNG',
     },
     muy_compactos: {
+      suelo: "muy compactos",
       angulo: '80°',
       esponjamiento: '50%',
-      compactacion: '1.15', // Valor de compactación agregado
+      compactacion: '1.15',
       descripcion: 'Muy resistentes',
       composicion: 'Rocas duras',
       herramienta: 'Barreta y explosivos',
       imagen: '/image5.PNG',
     },
   };
-  
+
+  const agregarEsquina = () => {
+    if (nuevaEsquina.volumen && nuevaEsquina.repeticiones) {
+      setEsquinas([...esquinas, nuevaEsquina]);
+      setNuevaEsquina({ volumen: '', repeticiones: '' });
+    }
+  };
+
+  const agregarLado = () => {
+    if (nuevoLado.ancho && nuevoLado.repeticiones) {
+      setLados([...lados, nuevoLado]);
+      setNuevoLado({ ancho: '', repeticiones: '' });
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Calcular el volumen de excavación
     const volumenCalculado = alto * largo * ancho;
     setVolumen(volumenCalculado);
 
-    // Calcular la profundidad en base a "alto"
     let profundidad;
     if (alto < 5) {
       profundidad = 'Menos de 5 metros';
     } else if (alto >= 5 && alto <= 10) {
       profundidad = 'De 5 a 10 metros';
-    } else if (alto > 10) {
+    } else {
       profundidad = 'Más de 10 metros';
     }
     setProfundidad(profundidad);
-
-    // Establecer carga
     setCarga(carga);
 
-    // Obtener los datos del tipo de suelo seleccionado
     const datosSuelo = sueloDatos[suelo];
-
-    // Pasar los datos del formulario a Submuracion.js para las recomendaciones
-    onSubmit(suelo, volumenCalculado, datosSuelo, alto, largo, ancho); 
+    onSubmit(suelo, volumenCalculado, datosSuelo, alto, largo, ancho);
   };
 
   return (
     <div className="formulario-container">
+      <form onSubmit={handleSubmit} className="formulario">
 
-          <form onSubmit={handleSubmit} className="formulario">
-      <div>
-        <label>Alto (m): </label>
-        <input
-          type="number"
-          value={alto}
-           min="1"
-           onChange={(e) => setAlto(e.target.value)}
-           />
-      </div>
-      <div>
-        <label>Largo (m): </label>
-        <input
-          type="number"
-          value={largo}
-          min="1"
-          onChange={(e) => setLargo(e.target.value)}
-          />
-      </div>
-      <div>
-        <label>Ancho (m): </label>
-        <input
-          type="number"
-          value={ancho}
-          min="1"
-          onChange={(e) => setAncho(e.target.value)}
-          />
-      </div>
-      <div>
-        <label>Tipo de suelo: </label>
-        <select value={suelo} onChange={(e) => setSuelo(e.target.value)}>
-          <option value="nada_cohesivos">Nada cohesivos</option>
-          <option value="poco_cohesivos">Poco cohesivos</option>
-          <option value="medianamente_cohesivos">Medianamente cohesivos</option>
-          <option value="muy_cohesivos">Muy cohesivos</option>
-          <option value="muy_compactos">Muy compactos</option>
-        </select>
-      </div>
+        {/* Dimensiones */}
+        <div>
+          <label>Alto (m): </label>
+          <input type="number" value={alto} min="1" onChange={e => setAlto(e.target.value)} />
+        </div>
+        <div>
+          <label>Largo (m): </label>
+          <input type="number" value={largo} min="1" onChange={e => setLargo(e.target.value)} />
+        </div>
+        <div>
+          <label>Ancho (m): </label>
+          <input type="number" value={ancho} min="1" onChange={e => setAncho(e.target.value)} />
+        </div>
 
-      <div>
-        <label>Carga de la estructura existente: </label>
-        <select value={carga} onChange={(e) => setCargaState(e.target.value)}>
-          <option value="baja">Baja (una planta)</option>
-          <option value="media">Media (2-3 plantas)</option>
-          <option value="alta">Alta (más de 3 plantas)</option>
-        </select>
-      </div>
+        {/* Tipo de suelo */}
+        <div>
+          <label>Tipo de suelo: </label>
+          <select value={suelo} onChange={(e) => setSuelo(e.target.value)}>
+            <option value="nada_cohesivos">Nada cohesivos</option>
+            <option value="poco_cohesivos">Poco cohesivos</option>
+            <option value="medianamente_cohesivos">Medianamente cohesivos</option>
+            <option value="muy_cohesivos">Muy cohesivos</option>
+            <option value="muy_compactos">Muy compactos</option>
+          </select>
+        </div>
 
-      <button type="submit">Calcular</button>
-    </form>
-          </div>
+        {/* Carga estructural */}
+        <div>
+          <label>Carga de la estructura existente: </label>
+          <select value={carga} onChange={(e) => setCargaState(e.target.value)}>
+            <option value="baja">Baja (una planta)</option>
+            <option value="media">Media (2-3 plantas)</option>
+            <option value="alta">Alta (más de 3 plantas)</option>
+          </select>
+        </div>
+
+        <Formulario2 
+          banquina={banquina}
+          setBanquina={setBanquina}
+          lados={lados}
+          setLados={setLados}
+          nuevoLado={nuevoLado}
+          setNuevoLado={setNuevoLado}
+          agregarLado={agregarLado}
+          esquinas={esquinas}
+          setEsquinas={setEsquinas}
+          nuevaEsquina={nuevaEsquina}
+          setNuevaEsquina={setNuevaEsquina}
+          agregarEsquina={agregarEsquina}
+        />
+
+        <button type="submit">Calcular</button>
+      </form>
+    </div>
   );
 }
 

@@ -37,6 +37,32 @@
     border-radius: 4px;
     width: 100%; /* Asegura que los inputs ocupen el 100% del ancho disponible */
   }
+
+ /* signo de pregunta */
+  .label-con-ayuda {
+   
+    display: inline-flex;
+    font-weight: bold;
+    font-size: 1rem; /* asegura tamaño consistente */
+    margin-left: 100px;
+  }
+
+  .icono-ayuda {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-left: 6px;
+    background-color: orange;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 18px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  
   
   /* Para pantallas pequeñas */
   @media (max-width: 768px) {
