@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Formulario from './Formulario';
 import Calculo from './Calculo';
+import Costo from './Costo';
 import './Submuracion.css';
 
 function Submuracion() {
@@ -26,7 +27,18 @@ function Submuracion() {
 
   const [banquina, setBanquina] = useState('1');
   const banquinaNumerica = parseFloat(banquina);
-console.log(datosSuelo, "----------------");
+
+  const [costom3, setCostom3] = useState('');
+  const [camiones, setCamiones] = useState('');
+  const [camionesCosto, setCamionesCosto] = useState('');
+
+  const [superficieLados, setSuperficieLados] = useState(0);
+  const [superficieEsquina, setSuperficieEsquina] = useState(0);
+
+  const [volumenCompensado, setVolumenCompensado] = useState(0);
+  const [volumenCentroCompensado, setVolumenCentroCompensado] = useState(0);
+
+
 
   // Manejo del formulario
   const handleFormularioSubmit = (sueloSeleccionado, volumenOriginal, datosSuelo) => {
@@ -117,6 +129,13 @@ console.log(datosSuelo, "----------------");
 
         banquina={banquina}
         setBanquina={setBanquina}
+
+        costom3 ={costom3}
+        camiones = {camiones}
+        camionesCosto = {camionesCosto}
+        setCostom3 ={setCostom3}
+        setCamiones = {setCamiones}
+        setCamionesCosto = {setCamionesCosto}
       />
       {volumen && profundidad && carga && (
           
@@ -145,6 +164,7 @@ console.log(datosSuelo, "----------------");
           coeficiente={datosSuelo.esponjamiento} 
           volumenCimiento={1.78}  // Volumen del cimiento (ejemplo estático)
           coeficienteComp={datosSuelo.compactacion}  // Coeficiente de compactación dinámico
+          angulo={datosSuelo.angulo} 
           ancho={ancho}  // Pasamos los valores de ancho
           alto={alto}    // Pasamos los valores de alto
           largo={largo}  // Pasamos los valores de largo
@@ -152,8 +172,26 @@ console.log(datosSuelo, "----------------");
           banquina={banquinaNumerica}
           lados={lados}
           esquinas={esquinas}
+
+          superficieLados={superficieLados}
+          setSuperficieLados={setSuperficieLados}
+
+          superficieEsquina={superficieEsquina}
+          setSuperficieEsquina={setSuperficieEsquina}
+
+          setVolumenCompensado={setVolumenCompensado}
+          setVolumenCentroCompensado={setVolumenCentroCompensado}
           />
-          
+        
+        <Costo
+          volumenCompensado={volumenCompensado}
+          volumenCentroCompensado={volumenCentroCompensado}
+          costom3 ={costom3}
+          camiones = {camiones}
+          camionesCosto = {camionesCosto}
+         />
+
+        
   
         {/* Mostrar la imagen correspondiente */}
         {imagen && <img src={imagen} alt="Tipo de suelo" />}

@@ -22,6 +22,14 @@
     height: 300px; /* Tamaño fijo para el borde */
 
   }
+
+  .volumenTotal {
+    width: 50%; /* Controla el ancho de las recomendaciones */
+    border: 4px solid black;
+    align-items: center;
+    margin-left:20px
+
+  }
   
   /* Estilos para los resultados */
   .resultados h3 {

@@ -5,4 +5,7 @@
   h1 {
     color: #444;
   }
+  .App {
+    padding-top: 80px; /* o lo que mida tu navbar */
+  }
   

@@ -1,6 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-function Calculo({ volumenOriginal, coeficiente, volumenCimiento, coeficienteComp, ancho, alto, largo }) {
+function Calculo({ 
+  volumenOriginal, 
+  coeficiente, 
+  volumenCimiento, 
+  coeficienteComp, 
+  angulo,
+  ancho, 
+  alto, 
+  largo,
+  banquina,
+  lados,
+  esquinas,
+  superficieLados,
+  setSuperficieLados,
+  superficieEsquina,
+  setSuperficieEsquina,
+  setVolumenCompensado, 
+  setVolumenCentroCompensado}) {
   // Convertir el coeficiente a un número decimal
   const coefDecimal = parseFloat(coeficiente) / 100;
 
@@ -17,8 +34,65 @@ function Calculo({ volumenOriginal, coeficiente, volumenCimiento, coeficienteCom
   const volumenSobrante = volumenEsp - volumenCompactar;
 
   const volumenRellenarFinal = Math.floor((volumenEsp - volumenRellenar))   ;
+
+  const radianes = angulo * Math.PI / 180;
+  const adyacente = alto / Math.tan(radianes);
+  const baseMenor = banquina;
+  const baseMayor = adyacente + banquina;
+  const areaTrapecio = ((baseMenor + baseMayor) / 2) * alto;
+
+  const volumen = ((superficieLados + superficieEsquina)).toFixed(2)
+  const volumen1 = (volumen*coeficienteComp).toFixed(2)
+  const volumenCen = (largo*ancho*alto) - volumen
+  const volumenCen1 = (volumenCen*coeficienteComp).toFixed(2)
+
+    
   
-  console.log(coeficienteComp,"-------------------");
+  useEffect(() => {
+    const totalVolumen = lados.reduce((acum, lado) => {
+      const anchoNum = parseFloat(lado.ancho);
+      const repeticiones = parseInt(lado.repeticiones);
+      const volumenLado = anchoNum * areaTrapecio * repeticiones;
+      return acum + volumenLado;
+    }, 0);
+
+    setSuperficieLados(totalVolumen);
+  }, [lados, areaTrapecio, setSuperficieLados]);
+  
+
+  useEffect(() => {
+    const totalEsquinas = esquinas.reduce((acum, esquina) => {
+      const rep = parseInt(esquina.repeticiones);
+      const vol = parseFloat(esquina.volumen);
+      return acum + (rep * vol);
+    }, 0);
+
+    setSuperficieEsquina(totalEsquinas);
+  }, [esquinas, setSuperficieEsquina]);
+
+  useEffect(() => {
+    const volumenTotal = superficieLados + superficieEsquina;
+  
+    const volumen = volumenTotal.toFixed(2);
+    const volumen1 = (volumenTotal * coeficienteComp).toFixed(2);
+  
+    const volumenCen = (largo * ancho * alto) - volumenTotal;
+    const volumenCen1 = (volumenCen * coeficienteComp).toFixed(2);
+  
+    setVolumenCompensado(Number(volumen1));
+    setVolumenCentroCompensado(Number(volumenCen1));
+  }, [
+    superficieLados, 
+    superficieEsquina, 
+    largo, 
+    ancho, 
+    alto, 
+    coeficienteComp, 
+    setVolumenCompensado, 
+    setVolumenCentroCompensado
+  ]);
+  
+
   
   
   return (
@@ -51,6 +125,60 @@ function Calculo({ volumenOriginal, coeficiente, volumenCimiento, coeficienteCom
       </div>
 
       <hr />
+
+      <div>
+      <h4>Volumen de esquinas</h4>
+      {esquinas.map((esquina, i) => {
+        const repeticiones = parseInt(esquina.repeticiones);
+        const volumenUnitario = parseFloat(esquina.volumen);
+        const volumenTotal = volumenUnitario * repeticiones;
+
+        return (
+          <div key={i}>
+            <p><strong>Esquina #{i + 1}</strong></p>
+            <p>Volumen unitario: {volumenUnitario} m³</p>
+            <p>Repeticiones: {repeticiones}</p>
+            <p>Volumen Total: {volumenTotal.toFixed(2)} m³</p>
+            <hr />
+          </div>
+        );
+      })}
+
+      <h4>Volumen total acumulado de esquinas: {superficieEsquina.toFixed(2)} m³</h4>
+     
+    </div>
+
+
+      <div>
+      <h4>Volumen de Talud</h4>
+      {lados.map((lado, i) => {
+        const anchoNum = parseFloat(lado.ancho);
+        const repeticiones = parseInt(lado.repeticiones);
+        const volumenLado = anchoNum * areaTrapecio * repeticiones;
+
+        return (
+          <div key={i}>
+            <p><strong>Lado #{i + 1}</strong></p>
+            <p>Ancho: {anchoNum} m</p>
+            <p>Repeticiones: {repeticiones}</p>
+            <p>Volumen Total: {volumenLado.toFixed(2)} m³</p>
+            <hr />
+          </div>
+        );
+      })}
+
+      <h4>Volumen total acumulado de lados: {superficieLados.toFixed(2)} m³</h4>
+    </div>
+    <div  className="volumenTotal">
+
+    <h4>Volumen total lados + esquinas: {volumen} m³</h4>
+    <h4>Volumen total + Esponjamiento: {volumen1} m³</h4>
+    <h4>Volumen Central: {volumenCen} m³</h4>
+    <h4>Volumen Central + Esponjamiento: {volumenCen1} m³</h4>
+    </div>
+      <p></p>
+
+        <hr></hr>
 
     </div>
   );

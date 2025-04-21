@@ -24,7 +24,13 @@ function Formulario({
   nuevoLado,
   setNuevoLado,
   banquina,
-  setBanquina
+  setBanquina,
+  costom3,
+  camiones,
+  camionesCosto,
+  setCostom3,
+  setCamiones,
+  setCamionesCosto
 }) {
   const [suelo, setSuelo] = useState('nada_cohesivos');
   const [carga, setCargaState] = useState('alta');
@@ -33,7 +39,7 @@ function Formulario({
   const sueloDatos = {
     nada_cohesivos: {
       suelo: "nada cohesivos",
-      angulo: '35°',
+      angulo: '35',
       esponjamiento: '10%',
       compactacion: '1.05',
       descripcion: 'Sin consistencia',
@@ -43,7 +49,7 @@ function Formulario({
     },
     poco_cohesivos: {
       suelo: "poco cohesivos",
-      angulo: '45°',
+      angulo: '45',
       esponjamiento: '20%',
       compactacion: '1.05',
       descripcion: 'Desmoronables',
@@ -53,7 +59,7 @@ function Formulario({
     },
     medianamente_cohesivos: {
       suelo: "medianamente cohesivos",
-      angulo: '65°',
+      angulo: '65',
       esponjamiento: '30%',
       compactacion: '1.10',
       descripcion: 'Blando pero resistente',
@@ -63,7 +69,7 @@ function Formulario({
     },
     muy_cohesivos: {
       suelo: "muy cohesivos",
-      angulo: '75°',
+      angulo: '75',
       esponjamiento: '40%',
       compactacion: '1.15',
       descripcion: 'Duros y resistentes',
@@ -73,7 +79,7 @@ function Formulario({
     },
     muy_compactos: {
       suelo: "muy compactos",
-      angulo: '80°',
+      angulo: '80',
       esponjamiento: '50%',
       compactacion: '1.15',
       descripcion: 'Muy resistentes',
@@ -172,6 +178,61 @@ function Formulario({
           setNuevaEsquina={setNuevaEsquina}
           agregarEsquina={agregarEsquina}
         />
+
+        <div>
+          <label>Costo por m³ de movimiento de tierra ($):</label>
+          <input
+            type="number"
+            placeholder="Ej: 53500"
+            value={costom3}
+            step="1"
+            min="1"
+            onChange={e => {
+              const value = e.target.value;
+              if (value === '' || (/^\d+$/.test(value) && parseInt(value) > 0)) {
+                setCostom3(value);
+              }
+            }}
+          />
+        </div>
+
+
+        <div>
+          <label>Costo por m³ de carga y camión ($):</label>
+          <input
+            type="number"
+            placeholder="Ej: 46226"
+            value={camionesCosto}
+            step="0.01"
+            min="0"
+            onChange={e => {
+              const value = e.target.value;
+              if (value === '' || /^(\d+(\.\d{0,2})?)$/.test(value)) {
+                setCamionesCosto(value);
+              }
+            }}
+          />
+        </div>
+
+
+        <div>
+          <label>Capacidad del camión (m³):</label>
+          <input
+            type="number"
+            placeholder="Ej: 9"
+            value={camiones}
+            step="1"
+            min="1"
+            onChange={e => {
+              const value = e.target.value;
+              if (value === '' || (/^\d+$/.test(value) && parseInt(value) > 0)) {
+                setCamiones(value);
+              }
+            }}
+          />
+        </div>
+
+
 
         <button type="submit">Calcular</button>
       </form>
