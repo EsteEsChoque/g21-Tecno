@@ -30,7 +30,14 @@ function Formulario({
   camionesCosto,
   setCostom3,
   setCamiones,
-  setCamionesCosto
+  setCamionesCosto,
+
+  espesorMuro,
+  setEspesorMuro,
+  espesorRecalce,
+  setEspesorRecalce,
+  setVolumenMuro,
+  setVolumenRecalce
 }) {
   const [suelo, setSuelo] = useState('nada_cohesivos');
   const [carga, setCargaState] = useState('alta');
@@ -231,6 +238,44 @@ function Formulario({
             }}
           />
         </div>
+
+        <div>
+          <label>Espesor del muro medianero (cm): </label>
+          <input
+            type="number"
+            placeholder="Ej: 30"
+            step="1"
+            min="20"
+            max="80"
+            value={espesorMuro}
+            onChange={e => {
+              const val = e.target.value;
+              if (val === '' || (/^\d+$/.test(val) && parseInt(val) >= 20 && parseInt(val) <= 80)) {
+                setEspesorMuro(val);
+              }
+            }}
+          />
+        </div>
+
+        <div>
+          <label>Espesor del recalce (cm): </label>
+          <input
+            type="number"
+            placeholder="Ej: 5"
+            step="1"
+            min="5"
+            max="10"
+            value={espesorRecalce}
+            onChange={e => {
+              const val = e.target.value;
+              if (val === '' || (/^\d+$/.test(val) && parseInt(val) >= 5 && parseInt(val) <= 10)) {
+                setEspesorRecalce(val);
+              }
+            }}
+          />
+        </div>
+
+
 
 
 

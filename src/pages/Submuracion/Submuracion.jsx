@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Formulario from './Formulario';
 import Calculo from './Calculo';
 import Costo from './Costo';
+import Muro from './Muro';
 import './Submuracion.css';
 
 function Submuracion() {
@@ -38,6 +39,11 @@ function Submuracion() {
   const [volumenCompensado, setVolumenCompensado] = useState(0);
   const [volumenCentroCompensado, setVolumenCentroCompensado] = useState(0);
 
+  const [espesorMuro, setEspesorMuro] = useState('');
+  const [espesorRecalce, setEspesorRecalce] = useState('');
+
+  const [volumenMuro, setVolumenMuro] = useState(0);
+  const [volumenRecalce, setVolumenRecalce] = useState(0);
 
 
   // Manejo del formulario
@@ -136,6 +142,13 @@ function Submuracion() {
         setCostom3 ={setCostom3}
         setCamiones = {setCamiones}
         setCamionesCosto = {setCamionesCosto}
+
+        espesorMuro={espesorMuro}
+        setEspesorMuro={setEspesorMuro}
+        espesorRecalce={espesorRecalce}
+        setEspesorRecalce={setEspesorRecalce}
+        setVolumenMuro={setVolumenMuro}
+        setVolumenRecalce={setVolumenRecalce}
       />
       {volumen && profundidad && carga && (
           
@@ -189,9 +202,17 @@ function Submuracion() {
           costom3 ={costom3}
           camiones = {camiones}
           camionesCosto = {camionesCosto}
-         />
+        />
 
-        
+        <Muro
+          largo={largo}
+          ancho={ancho}
+          alto={alto}
+          espesorRecalce={espesorRecalce}
+          espesorMuro={espesorMuro}
+          lados={lados}
+          esquinas={esquinas}
+        />
   
         {/* Mostrar la imagen correspondiente */}
         {imagen && <img src={imagen} alt="Tipo de suelo" />}
