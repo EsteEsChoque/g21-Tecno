@@ -3,9 +3,6 @@ import './Formulario.css';
 import Formulario2 from './Formulario2';
 
 function Formulario({
-  setAlto,
-  setLargo,
-  setAncho,
   setVolumen,
   setProfundidad,
   setCarga,
@@ -15,6 +12,9 @@ function Formulario({
   alto,
   largo,
   ancho,
+  setAlto,
+  setLargo,
+  setAncho,
   esquinas,
   setEsquinas,
   nuevaEsquina,
@@ -31,14 +31,19 @@ function Formulario({
   setCostom3,
   setCamiones,
   setCamionesCosto,
-
   espesorMuro,
   setEspesorMuro,
   espesorRecalce,
   setEspesorRecalce,
   setVolumenMuro,
-  setVolumenRecalce
-}) {
+  setVolumenRecalce,
+  costom3h,
+  setCostom3h,
+  costomMamposteria,
+  setCostomMamposteria,
+  costoRecalce,
+  setCostoRecalce
+}){
   const [suelo, setSuelo] = useState('nada_cohesivos');
   const [carga, setCargaState] = useState('alta');
 
@@ -97,9 +102,9 @@ function Formulario({
   };
 
   const agregarEsquina = () => {
-    if (nuevaEsquina.volumen && nuevaEsquina.repeticiones) {
+    if (nuevaEsquina.lado1Ancho && nuevaEsquina.lado2Ancho && nuevaEsquina.repeticiones) {
       setEsquinas([...esquinas, nuevaEsquina]);
-      setNuevaEsquina({ volumen: '', repeticiones: '' });
+      setNuevaEsquina({ lado1Ancho: '', lado2Ancho: '', repeticiones: '' });
     }
   };
 
@@ -132,7 +137,7 @@ function Formulario({
   };
 
   return (
-    <div className="formulario-container">
+   
       <form onSubmit={handleSubmit} className="formulario">
 
         {/* Dimensiones */}
@@ -187,7 +192,7 @@ function Formulario({
         />
 
         <div>
-          <label>Costo por m³ de movimiento de tierra ($):</label>
+          <label>Costo por m³ de movimiento de tierra con maquinas ($):</label>
           <input
             type="number"
             placeholder="Ej: 53500"
@@ -203,6 +208,22 @@ function Formulario({
           />
         </div>
 
+        <div>
+          <label>Costo por m³ de movimiento de tierra manual en todo el perímetro ($):</label>
+          <input
+            type="number"
+            placeholder="Ej: 28550"
+            value={costom3h}
+            step="1"
+            min="1"
+            onChange={e => {
+              const value = e.target.value;
+              if (value === '' || (/^\d+$/.test(value) && parseInt(value) > 0)) {
+                setCostom3h(value);
+              }
+            }}
+          />
+        </div>
 
         <div>
           <label>Costo por m³ de carga y camión ($):</label>
@@ -216,6 +237,40 @@ function Formulario({
               const value = e.target.value;
               if (value === '' || /^(\d+(\.\d{0,2})?)$/.test(value)) {
                 setCamionesCosto(value);
+              }
+            }}
+          />
+        </div>
+
+        <div>
+          <label>Costo por m³ de mamposteria ($):</label>
+          <input
+            type="number"
+            placeholder="Ej: 315000"
+            value={costomMamposteria}
+            step="1"
+            min="1"
+            onChange={e => {
+              const value = e.target.value;
+              if (value === '' || (/^\d+$/.test(value) && parseInt(value) > 0)) {
+                setCostomMamposteria(value);
+              }
+            }}
+          />
+        </div>
+
+        <div>
+          <label>Costo por m³ de Recalce ($):</label>
+          <input
+            type="number"
+            placeholder="Ej:  9100"
+            value={costoRecalce}
+            step="1"
+            min="1"
+            onChange={e => {
+              const value = e.target.value;
+              if (value === '' || (/^\d+$/.test(value) && parseInt(value) > 0)) {
+                setCostoRecalce(value);
               }
             }}
           />
@@ -275,13 +330,10 @@ function Formulario({
           />
         </div>
 
-
-
-
-
         <button type="submit">Calcular</button>
+
       </form>
-    </div>
+    
   );
 }
 

@@ -1,75 +1,52 @@
 /* Contenedor del formulario */
 .formulario-container {
-    
-    /* Centra el formulario en pantallas pequeñas */
-    align-items: center;
-    height: 100vh; /* Para ocupar toda la altura de la pantalla */
-    padding: 0 20px;
-    flex-direction: column;
-  }
-  
-  /* Formulario y sus campos */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 0 20px;
+  flex-direction: column;
+}
+
+/* Formulario con 3 columnas */
+.formulario {
+  display: grid; /* Usamos CSS Grid */
+  grid-template-columns: repeat(3, 1fr); /* Tres columnas de igual tamaño */
+  gap: 20px; /* Espacio entre las columnas y los campos */
+  width: 95%;
+  max-width: 1000px; /* Controla el tamaño máximo del formulario */
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Cada div que contiene un campo */
+.formulario div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px; /* Añadimos más margen entre los campos */
+}
+
+/* Etiquetas de los campos */
+.formulario label {
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+/* Campos de entrada y select */
+.formulario input,
+.formulario select {
+  padding: 12px; /* Aumentamos el tamaño del padding para más espacio */
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 90%; /* Asegura que los inputs ocupen el 100% del ancho disponible */
+}
+
+/* Para pantallas pequeñas */
+@media (max-width: 768px) {
   .formulario {
-    width: 100%;
-    max-width: 300px; /* Controla el tamaño máximo del formulario */
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    grid-template-columns: 1fr; /* En pantallas pequeñas, pasamos a una sola columna */
   }
-  
-  .formulario div {
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .formulario label {
-    margin-bottom: 5px;
-    font-size: 1rem;
-  }
-  
-  .formulario input,
-  .formulario select {
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%; /* Asegura que los inputs ocupen el 100% del ancho disponible */
-  }
-
- /* signo de pregunta */
-  .label-con-ayuda {
-   
-    display: inline-flex;
-    font-weight: bold;
-    font-size: 1rem; /* asegura tamaño consistente */
-    margin-left: 100px;
-  }
-  
-
-  .icono-ayuda {
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    margin-left: 6px;
-    background-color: orange;
-    color: white;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 18px;
-    font-size: 13px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  
-  
-  /* Para pantallas pequeñas */
-  @media (max-width: 768px) {
-    .formulario-container {
-      justify-content: center; /* Centra el formulario en pantallas más pequeñas */
-      padding: 0;
-    }
-  }
-  
+}

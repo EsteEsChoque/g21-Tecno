@@ -5,4 +5,41 @@
   h1 {
     color: #444;
   }
- 
+ /* Asegurarse de que el body y html ocupen toda la altura */
+html, body {
+  height: 100%; /* Hace que el contenido ocupe toda la altura de la pantalla */
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* Esto hace que los elementos se apilen verticalmente */
+}
+
+/* Contenedor principal .App */
+.App {
+  display: flex;
+  flex-direction: column; /* Apila el contenido verticalmente */
+  flex: 1; /* Asegura que el contenido principal ocupe el espacio disponible */
+  text-align: center;
+}
+
+/* Estilo del h1 */
+h1 {
+  color: #444;
+}
+
+/* Estilo del footer */
+.footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  margin-top: auto; /* Hace que el footer se pegue al final de la página */
+}
+
+.footer ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footer ul li {
+  margin: 5px 0;
+}

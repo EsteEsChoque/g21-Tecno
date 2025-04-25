@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
 
 function Calculo({ 
   volumenOriginal, 
@@ -63,8 +65,9 @@ function Calculo({
   useEffect(() => {
     const totalEsquinas = esquinas.reduce((acum, esquina) => {
       const rep = parseInt(esquina.repeticiones);
-      const vol = parseFloat(esquina.volumen);
-      return acum + (rep * vol);
+      const lad1 = parseFloat(esquina.lado1Ancho);
+      const lad2 = parseFloat(esquina.lado2Ancho);
+      return acum + (rep * (lad1+lad2)*alto);
     }, 0);
 
     setSuperficieEsquina(totalEsquinas);
@@ -93,7 +96,13 @@ function Calculo({
   ]);
   
 
-  
+  useEffect(() => {
+    const formulaElement = document.getElementById('formula');
+    katex.render(
+      '\\frac{B + b}{2} \\times \\text{Altura} \\times \\text{Largo} = Vtr',
+      formulaElement
+    );
+  }, []);
   
   return (
     <div>
@@ -112,33 +121,23 @@ function Calculo({
 
       <hr />
 
-      {/* Cálculo de volumen a rellenar */}
-      <div>
-        <h4>Cálculo de Volumen a Retirar</h4>
-        <p>Vc (Volumen del cimiento) = b x h x l (ancho x alto x largo )</p>
-        <p>Vo = {ancho} m x {alto} m x {largo} m =  {Math.floor(volumenEsp.toFixed(2))} m³ </p>
-        <p>V a rellenar = Vo – V c = {volumenEsp.toFixed(2)} m³ - {volumenOriginal} m³  </p>
-        <p>V a rellenar = {volumenRellenarFinal} m³</p>
-        <p>V a compactar = V a rell x Coef. Comp. </p>
-        <p>V a compactar = {volumenRellenarFinal} m³ x {coeficienteComp} = {Math.floor(coeficienteComp*volumenRellenarFinal)}  m³</p>
-        <p>V sobrante o a retirar = {volumenEsp.toFixed(2)} m³ - {Math.floor(coeficienteComp*volumenRellenarFinal)}  m³ = {Math.floor(volumenEsp.toFixed(2)-(coeficienteComp*volumenRellenarFinal))}  m³</p>
-      </div>
-
-      <hr />
+     
 
       <div>
       <h4>Volumen de esquinas</h4>
       {esquinas.map((esquina, i) => {
         const repeticiones = parseInt(esquina.repeticiones);
-        const volumenUnitario = parseFloat(esquina.volumen);
-        const volumenTotal = volumenUnitario * repeticiones;
+        const volumenLado1 = parseFloat(esquina.lado1Ancho);
+        const volumenLado2 = parseFloat(esquina.lado2Ancho);
+        const volumenUnitario =volumenLado1  * volumenLado2 * alto;
+        const volumenTotal =volumenUnitario  * repeticiones;
 
         return (
           <div key={i}>
             <p><strong>Esquina #{i + 1}</strong></p>
             <p>Volumen unitario: {volumenUnitario} m³</p>
             <p>Repeticiones: {repeticiones}</p>
-            <p>Volumen Total: {volumenTotal.toFixed(2)} m³</p>
+            <p>Volumen Total: {volumenTotal.toFixed(1)} m³</p>
             <hr />
           </div>
         );
@@ -154,14 +153,16 @@ function Calculo({
       {lados.map((lado, i) => {
         const anchoNum = parseFloat(lado.ancho);
         const repeticiones = parseInt(lado.repeticiones);
-        const volumenLado = anchoNum * areaTrapecio * repeticiones;
-
+        const volumenLado = anchoNum * areaTrapecio;
+        const volumenTotal = anchoNum * areaTrapecio * repeticiones;
+        const formula = `\\frac{(${baseMenor} + ${lado.ancho})}{2} \\times \\text ${alto} \\times \\text${lado.ancho} = ${volumenLado.toFixed(1)} m³`;
         return (
           <div key={i}>
-            <p><strong>Lado #{i + 1}</strong></p>
-            <p>Ancho: {anchoNum} m</p>
+            <h5>Volumen de prisma trapezoidal {i+1}</h5>
+            <div id="formula"></div>
+            <div key={i} dangerouslySetInnerHTML={{ __html: katex.renderToString(formula) }} />
             <p>Repeticiones: {repeticiones}</p>
-            <p>Volumen Total: {volumenLado.toFixed(2)} m³</p>
+            <p>Volumen Total: {volumenTotal.toFixed(1)} m³</p>
             <hr />
           </div>
         );

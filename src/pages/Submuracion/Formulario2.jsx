@@ -89,14 +89,27 @@ function Formulario2({
         </label>
         <input
           type="number"
-          placeholder="Volumen (m³)"
-          value={nuevaEsquina.volumen}
+          placeholder="Lado 1 (cm)"
+          value={nuevaEsquina.lado1Ancho}
           min="0.01"
           step="0.01"
           onChange={e => {
             const value = e.target.value;
             if (value === '' || parseFloat(value) > 0) {
-              setNuevaEsquina({ ...nuevaEsquina, volumen: value });
+              setNuevaEsquina({ ...nuevaEsquina, lado1Ancho: value });
+            }
+          }}
+        />
+        <input
+          type="number"
+          placeholder="Lado 2 (cm)"
+          value={nuevaEsquina.lado2Ancho}
+          min="0.01"
+          step="0.01"
+          onChange={e => {
+            const value = e.target.value;
+            if (value === '' || parseFloat(value) > 0) {
+              setNuevaEsquina({ ...nuevaEsquina, lado2Ancho: value });
             }
           }}
         />
@@ -116,10 +129,12 @@ function Formulario2({
         <button type="button" onClick={agregarEsquina}>Agregar Esquina</button>
         <ul>
           {esquinas.map((e, i) => (
-            <li key={i}>Volumen: {e.volumen} m³, Cantidad: {e.repeticiones}</li>
+            <li key={i}>
+              Lado 1: {e.lado1Ancho} cm, Lado 2: {e.lado2Ancho} cm, Repeticiones: {e.repeticiones}
+            </li>
           ))}
         </ul>
-      </div>
+      </div>  
     </>
   );
 }

@@ -4,9 +4,8 @@
     justify-content: flex-start;
     gap: 20px; /* Espacio entre los elementos */
     align-items: flex-start;
-    position: absolute; /* Posición inicial en la parte superior */
-    top: 130px; /* Aleja de la parte superior */
-    left: 400px; /* Ubica en la parte derecha */
+   
+ 
     width: auto;
     flex-direction: column;
   }
@@ -15,13 +14,7 @@
     width: 80%; /* Controla el ancho de los resultados */
   }
   
-  .recomendaciones {
-    width: 90%; /* Controla el ancho de las recomendaciones */
-    border: 4px solid black;
-    padding: 8px;
-    height: 300px; /* Tamaño fijo para el borde */
-
-  }
+  
 
   .volumenTotal {
     width: 50%; /* Controla el ancho de las recomendaciones */
@@ -40,17 +33,7 @@
     margin: 5px 0;
   }
   
-  /* Responsividad para pantallas pequeñas */
-  @media (max-width: 900px) {
-    .recomendaciones {
-        height: 350px; /* Tamaño fijo para el borde */
-      }
-}
-@media (max-width: 818px) {
-    .recomendaciones {
-        height: 400px; /* Tamaño fijo para el borde */
-      }
-}
+  /
   @media (max-width: 768px) {
     .resultados-container {
       position: relative; /* Cambia a 'relative' para quitar la posición absoluta */
