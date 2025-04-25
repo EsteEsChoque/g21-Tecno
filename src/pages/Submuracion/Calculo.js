@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
 
 function Calculo({ 
   volumenOriginal, 
@@ -94,7 +96,13 @@ function Calculo({
   ]);
   
 
-  
+  useEffect(() => {
+    const formulaElement = document.getElementById('formula');
+    katex.render(
+      '\\frac{B + b}{2} \\times \\text{Altura} \\times \\text{Largo} = Vtr',
+      formulaElement
+    );
+  }, []);
   
   return (
     <div>
@@ -139,7 +147,6 @@ function Calculo({
      
     </div>
 
-
       <div>
       <h4>Volumen de Talud</h4>
       {lados.map((lado, i) => {
@@ -147,10 +154,12 @@ function Calculo({
         const repeticiones = parseInt(lado.repeticiones);
         const volumenLado = anchoNum * areaTrapecio;
         const volumenTotal = anchoNum * areaTrapecio * repeticiones;
+        const formula = `\\frac{(${baseMenor} + ${lado.ancho})}{2} \\times \\text ${alto} \\times \\text${lado.ancho} = ${volumenLado.toFixed(1)} m³`;
         return (
           <div key={i}>
             <h5>Volumen de prisma trapezoidal {i+1}</h5>
-          
+            <div id="formula"></div>
+            <div key={i} dangerouslySetInnerHTML={{ __html: katex.renderToString(formula) }} />
             <p>Repeticiones: {repeticiones}</p>
             <p>Volumen Total: {volumenTotal.toFixed(1)} m³</p>
             <hr />
