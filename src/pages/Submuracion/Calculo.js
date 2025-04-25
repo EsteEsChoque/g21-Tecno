@@ -164,7 +164,7 @@ function Calculo({
             <p>Repeticiones: {repeticiones}</p>
             <p>Volumen Total: {volumenTotal.toFixed(1)} m³</p>
             <hr />
-          </div>
+          </div> 
         );
       })}
 

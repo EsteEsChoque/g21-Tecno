@@ -15,7 +15,7 @@ function Submuracion() {
 
    // Definimos los estados para alto, largo y ancho
    const [alto, setAlto] = useState('');
-   const [largo, setLargo] = useState('');
+   const [largo, setLargo] = useState(''); 
    const [ancho, setAncho] = useState('');
 
    // Estados para esquinas
