@@ -44,6 +44,16 @@
   width: 90%; /* Asegura que los inputs ocupen el 100% del ancho disponible */
 }
 
+.form-error {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
 /* Para pantallas pequeñas */
 @media (max-width: 768px) {
   .formulario {

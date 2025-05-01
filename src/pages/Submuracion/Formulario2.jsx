@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function Formulario2({
   banquina, 
@@ -12,15 +12,33 @@ function Formulario2({
   setEsquinas, 
   nuevaEsquina, 
   setNuevaEsquina, 
-  agregarEsquina
+  agregarEsquina,
+   // <-- asegurate de pasar esta función desde el componente padre
 }) {
+  const [formError, setFormError] = useState('');
+  const mostrarErrorTemporal = (mensaje) => {
+    setFormError(mensaje);
+    setTimeout(() => setFormError(""), 8000);
+  };
+
   return (
     <>
       {/* Banquina */}
       <div className="form-group">
+      {formError && (
+  <div className="form-error">
+    {formError}
+  </div>
+)}
         <label className="label-con-ayuda">
           Banquina
-          <span className="icono-ayuda" title="La banquina es el espacio adicional que se deja entre la excavación y el área de trabajo. Se puede ajustar entre 1 y 2 metros según el terreno.">?</span>
+          <button
+            type="button"
+            className="btn-ayuda"
+            onClick={() =>
+              mostrarErrorTemporal("ℹ️ La banquina es el espacio adicional que se deja entre la excavación y el área de trabajo. Se puede ajustar entre 1 y 2 metros según el terreno.")
+            }
+          >?</button>
         </label>
         <input
           type="number"
@@ -43,7 +61,13 @@ function Formulario2({
       <div className="form-group">
         <label className="label-con-ayuda">
           Lados
-          <span className="icono-ayuda" title="Ingresá el ancho del lado (entre 1 y 1.5 m) y dale al botón para guardar ese lado. Si tienes lados diferentes, ve agregándolos.">?</span>
+          <button
+            type="button"
+            className="btn-ayuda"
+            onClick={() =>
+              mostrarErrorTemporal("ℹ️ Ingresá el ancho del lado (entre 1 y 1.5 m) y dale al botón para guardar ese lado. Si tienes lados diferentes, ve agregándolos.")
+            }
+          >?</button>
         </label>
         <input
           type="number"
@@ -85,7 +109,13 @@ function Formulario2({
       <div className="form-group">
         <label className="label-con-ayuda">
           Esquinas
-          <span className="icono-ayuda" title="Ingresá el volumen individual de la esquina (en m³) y dale al botón para guardarla. Si tenés esquinas diferentes, agregalas una por una.">?</span>
+          <button
+            type="button"
+            className="btn-ayuda"
+            onClick={() =>
+              mostrarErrorTemporal("ℹ️ Ingresá el volumen individual de la esquina (en m³) y dale al botón para guardarla. Si tenés esquinas diferentes, agregalas una por una.")
+            }
+          >?</button>
         </label>
         <input
           type="number"

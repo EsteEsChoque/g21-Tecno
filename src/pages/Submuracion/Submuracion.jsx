@@ -3,6 +3,7 @@ import Formulario from './Formulario';
 import Calculo from './Calculo';
 import Costo from './Costo';
 import Muro from './Muro';
+import Recomendaciones from './Recomendaciones';
 import './Submuracion.css';
 
 function Submuracion() {
@@ -47,6 +48,11 @@ function Submuracion() {
 
   const [volumenMuro, setVolumenMuro] = useState(0);
   const [volumenRecalce, setVolumenRecalce] = useState(0);
+
+  const [horaR, setHoraRLocal] = useState(0.045);
+  const [horaM, setHoraMLocal] = useState(1);
+  const [grupos, setGruposLocal] = useState(3);
+  const [volumenRetroexcavadora, setVolumenRetroexcavadoraLocal] = useState(70);
 
 
   // Manejo del formulario
@@ -154,8 +160,16 @@ function Submuracion() {
           volumenCompensado={volumenCompensado}
           volumenCentroCompensado={volumenCentroCompensado}
           costom3 ={costom3}
+          costom3h={costom3h}
           camiones = {camiones}
           camionesCosto = {camionesCosto}
+          costomMamposteria={costomMamposteria}
+          costoRecalce={costoRecalce}
+          espesorMuro={espesorMuro}
+          espesorRecalce={espesorRecalce}
+          alto={alto}
+          largo={largo}
+          ancho={ancho}
         />
 
         <Muro
@@ -166,10 +180,19 @@ function Submuracion() {
           espesorMuro={espesorMuro}
           lados={lados}
           esquinas={esquinas}
+          volumenCentroCompensado={volumenCentroCompensado}
+          horaR = {horaR}
+          horaM = {horaM}
+          grupos = {grupos}
+          volumenRetroexcavadora= {volumenRetroexcavadora}
         />
-  
+        
+        <Recomendaciones
+         datosSuelo={datosSuelo}
+        />
         {/* Mostrar la imagen correspondiente */}
         {imagen && <img src={imagen} alt="Tipo de suelo" />}
+
           </div>
         </div>
       )}

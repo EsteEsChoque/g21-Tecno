@@ -43,9 +43,10 @@ function Formulario({
   setCostomMamposteria,
   costoRecalce,
   setCostoRecalce
-}){
+}) {
   const [suelo, setSuelo] = useState('nada_cohesivos');
   const [carga, setCargaState] = useState('alta');
+  const [formError, setFormError] = useState(''); // Estado para manejar los errores del formulario
 
   // Información por tipo de suelo
   const sueloDatos = {
@@ -118,6 +119,14 @@ function Formulario({
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validación de campos obligatorios
+    if (!alto || !largo || !ancho || !suelo || !carga || !costom3 || !costom3h || !camionesCosto || !costomMamposteria || !costoRecalce || !camiones) {
+      setFormError('⚠️ Todos los campos son obligatorios. Por favor, complete todos los campos.');
+      return; // Evita el envío del formulario si falta algún campo
+    }
+
+    setFormError(''); // Limpiar error si todos los campos están completos
+
     const volumenCalculado = alto * largo * ancho;
     setVolumen(volumenCalculado);
 
@@ -137,203 +146,163 @@ function Formulario({
   };
 
   return (
-   
-      <form onSubmit={handleSubmit} className="formulario">
+    <form onSubmit={handleSubmit} className="formulario">
 
-        {/* Dimensiones */}
-        <div>
-          <label>Alto (m): </label>
-          <input type="number" value={alto} min="1" onChange={e => setAlto(e.target.value)} />
-        </div>
-        <div>
-          <label>Largo (m): </label>
-          <input type="number" value={largo} min="1" onChange={e => setLargo(e.target.value)} />
-        </div>
-        <div>
-          <label>Ancho (m): </label>
-          <input type="number" value={ancho} min="1" onChange={e => setAncho(e.target.value)} />
-        </div>
+      {/* Dimensiones */}
+      <div>
+        <label>Alto (m): </label>
+        <input type="number" value={alto} onChange={e => setAlto(e.target.value)} />
+      </div>
+      <div>
+        <label>Largo (m): </label>
+        <input type="number" value={largo} onChange={e => setLargo(e.target.value)} />
+      </div>
+      <div>
+        <label>Ancho (m): </label>
+        <input type="number" value={ancho} onChange={e => setAncho(e.target.value)} />
+      </div>
 
-        {/* Tipo de suelo */}
-        <div>
-          <label>Tipo de suelo: </label>
-          <select value={suelo} onChange={(e) => setSuelo(e.target.value)}>
-            <option value="nada_cohesivos">Nada cohesivos</option>
-            <option value="poco_cohesivos">Poco cohesivos</option>
-            <option value="medianamente_cohesivos">Medianamente cohesivos</option>
-            <option value="muy_cohesivos">Muy cohesivos</option>
-            <option value="muy_compactos">Muy compactos</option>
-          </select>
-        </div>
+      {/* Tipo de suelo */}
+      <div>
+        <label>Tipo de suelo: </label>
+        <select value={suelo} onChange={(e) => setSuelo(e.target.value)}>
+          <option value="nada_cohesivos">Nada cohesivos</option>
+          <option value="poco_cohesivos">Poco cohesivos</option>
+          <option value="medianamente_cohesivos">Medianamente cohesivos</option>
+          <option value="muy_cohesivos">Muy cohesivos</option>
+          <option value="muy_compactos">Muy compactos</option>
+        </select>
+      </div>
 
-        {/* Carga estructural */}
-        <div>
-          <label>Carga de la estructura existente: </label>
-          <select value={carga} onChange={(e) => setCargaState(e.target.value)}>
-            <option value="baja">Baja (una planta)</option>
-            <option value="media">Media (2-3 plantas)</option>
-            <option value="alta">Alta (más de 3 plantas)</option>
-          </select>
-        </div>
+      {/* Carga estructural */}
+      <div>
+        <label>Carga de la estructura existente: </label>
+        <select value={carga} onChange={(e) => setCargaState(e.target.value)}>
+          <option value="baja">Baja (una planta)</option>
+          <option value="media">Media (2-3 plantas)</option>
+          <option value="alta">Alta (más de 3 plantas)</option>
+        </select>
+      </div>
 
-        <Formulario2 
-          banquina={banquina}
-          setBanquina={setBanquina}
-          lados={lados}
-          setLados={setLados}
-          nuevoLado={nuevoLado}
-          setNuevoLado={setNuevoLado}
-          agregarLado={agregarLado}
-          esquinas={esquinas}
-          setEsquinas={setEsquinas}
-          nuevaEsquina={nuevaEsquina}
-          setNuevaEsquina={setNuevaEsquina}
-          agregarEsquina={agregarEsquina}
+      {/* Agregar esquinas y lados */}
+      <Formulario2 
+        banquina={banquina}
+        setBanquina={setBanquina}
+        lados={lados}
+        setLados={setLados}
+        nuevoLado={nuevoLado}
+        setNuevoLado={setNuevoLado}
+        agregarLado={agregarLado}
+        esquinas={esquinas}
+        setEsquinas={setEsquinas}
+        nuevaEsquina={nuevaEsquina}
+        setNuevaEsquina={setNuevaEsquina}
+        agregarEsquina={agregarEsquina}
+      />
+
+      {/* Costos */}
+      <div>
+        <label>Costo por m³ de movimiento de tierra con maquinas ($):</label>
+        <input
+          type="number"
+          placeholder="Ej: 53500"
+          value={costom3}
+          step="1"
+          min="1"
+          onChange={e => setCostom3(e.target.value)}
         />
+      </div>
 
-        <div>
-          <label>Costo por m³ de movimiento de tierra con maquinas ($):</label>
-          <input
-            type="number"
-            placeholder="Ej: 53500"
-            value={costom3}
-            step="1"
-            min="1"
-            onChange={e => {
-              const value = e.target.value;
-              if (value === '' || (/^\d+$/.test(value) && parseInt(value) > 0)) {
-                setCostom3(value);
-              }
-            }}
-          />
-        </div>
+      <div>
+        <label>Costo por m³ de movimiento de tierra manual en todo el perímetro ($):</label>
+        <input
+          type="number"
+          placeholder="Ej: 28550"
+          value={costom3h}
+          step="1"
+          min="1"
+          onChange={e => setCostom3h(e.target.value)}
+        />
+      </div>
 
-        <div>
-          <label>Costo por m³ de movimiento de tierra manual en todo el perímetro ($):</label>
-          <input
-            type="number"
-            placeholder="Ej: 28550"
-            value={costom3h}
-            step="1"
-            min="1"
-            onChange={e => {
-              const value = e.target.value;
-              if (value === '' || (/^\d+$/.test(value) && parseInt(value) > 0)) {
-                setCostom3h(value);
-              }
-            }}
-          />
-        </div>
+      <div>
+        <label>Costo por m³ de carga y camión ($):</label>
+        <input
+          type="number"
+          placeholder="Ej: 46226"
+          value={camionesCosto}
+          step="0.01"
+          min="0"
+          onChange={e => setCamionesCosto(e.target.value)}
+        />
+      </div>
 
-        <div>
-          <label>Costo por m³ de carga y camión ($):</label>
-          <input
-            type="number"
-            placeholder="Ej: 46226"
-            value={camionesCosto}
-            step="0.01"
-            min="0"
-            onChange={e => {
-              const value = e.target.value;
-              if (value === '' || /^(\d+(\.\d{0,2})?)$/.test(value)) {
-                setCamionesCosto(value);
-              }
-            }}
-          />
-        </div>
+      <div>
+        <label>Costo por m³ de mamposteria ($):</label>
+        <input
+          type="number"
+          placeholder="Ej: 315000"
+          value={costomMamposteria}
+          step="1"
+          min="1"
+          onChange={e => setCostomMamposteria(e.target.value)}
+        />
+      </div>
 
-        <div>
-          <label>Costo por m³ de mamposteria ($):</label>
-          <input
-            type="number"
-            placeholder="Ej: 315000"
-            value={costomMamposteria}
-            step="1"
-            min="1"
-            onChange={e => {
-              const value = e.target.value;
-              if (value === '' || (/^\d+$/.test(value) && parseInt(value) > 0)) {
-                setCostomMamposteria(value);
-              }
-            }}
-          />
-        </div>
+      <div>
+        <label>Costo por m³ de Recalce ($):</label>
+        <input
+          type="number"
+          placeholder="Ej: 9100"
+          value={costoRecalce}
+          step="1"
+          min="1"
+          onChange={e => setCostoRecalce(e.target.value)}
+        />
+      </div>
 
-        <div>
-          <label>Costo por m³ de Recalce ($):</label>
-          <input
-            type="number"
-            placeholder="Ej:  9100"
-            value={costoRecalce}
-            step="1"
-            min="1"
-            onChange={e => {
-              const value = e.target.value;
-              if (value === '' || (/^\d+$/.test(value) && parseInt(value) > 0)) {
-                setCostoRecalce(value);
-              }
-            }}
-          />
-        </div>
+      <div>
+        <label>Capacidad del camión (m³):</label>
+        <input
+          type="number"
+          placeholder="Ej: 9"
+          value={camiones}
+          step="1"
+          min="1"
+          onChange={e => setCamiones(e.target.value)}
+        />
+      </div>
 
+      <div>
+        <label>Espesor del muro medianero (cm): </label>
+        <input
+          type="number"
+          placeholder="Ej: 30"
+          step="1"
+          min="20"
+          max="80"
+          value={espesorMuro}
+          onChange={e => setEspesorMuro(e.target.value)}
+        />
+      </div>
 
-        <div>
-          <label>Capacidad del camión (m³):</label>
-          <input
-            type="number"
-            placeholder="Ej: 9"
-            value={camiones}
-            step="1"
-            min="1"
-            onChange={e => {
-              const value = e.target.value;
-              if (value === '' || (/^\d+$/.test(value) && parseInt(value) > 0)) {
-                setCamiones(value);
-              }
-            }}
-          />
-        </div>
+      <div>
+        <label>Espesor del recalce (cm): </label>
+        <input
+          type="number"
+          placeholder="Ej: 5"
+          step="1"
+          min="5"
+          max="10"
+          value={espesorRecalce}
+          onChange={e => setEspesorRecalce(e.target.value)}
+        />
+      </div>
 
-        <div>
-          <label>Espesor del muro medianero (cm): </label>
-          <input
-            type="number"
-            placeholder="Ej: 30"
-            step="1"
-            min="20"
-            max="80"
-            value={espesorMuro}
-            onChange={e => {
-              const val = e.target.value;
-              if (val === '' || (/^\d+$/.test(val) && parseInt(val) >= 20 && parseInt(val) <= 80)) {
-                setEspesorMuro(val);
-              }
-            }}
-          />
-        </div>
+      <button type="submit">Calcular</button>
 
-        <div>
-          <label>Espesor del recalce (cm): </label>
-          <input
-            type="number"
-            placeholder="Ej: 5"
-            step="1"
-            min="5"
-            max="10"
-            value={espesorRecalce}
-            onChange={e => {
-              const val = e.target.value;
-              if (val === '' || (/^\d+$/.test(val) && parseInt(val) >= 5 && parseInt(val) <= 10)) {
-                setEspesorRecalce(val);
-              }
-            }}
-          />
-        </div>
-
-        <button type="submit">Calcular</button>
-
-      </form>
-    
+      {formError && <p style={{ color: 'red' }}>{formError}</p>} {/* Mostrar el mensaje de error */}
+    </form>
   );
 }
 

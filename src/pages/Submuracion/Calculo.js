@@ -22,20 +22,12 @@ function Calculo({
   setVolumenCentroCompensado}) {
   // Convertir el coeficiente a un número decimal
   const coefDecimal = parseFloat(coeficiente) / 100;
+  const coefDecimal2 = coefDecimal + 1;
+ 
 
   // Calcular el esponjamiento (volumen original * coeficiente de esponjamiento)
   const volumenEsp = volumenOriginal * (1 + coefDecimal); // Multiplicamos por (1 + coefDecimal) para obtener el volumen esponjado
 
-  // Calcular el volumen a rellenar (volumen original - volumen del cimiento)
-  const volumenRellenar = volumenOriginal - volumenCimiento;
-
-  // Calcular el volumen a compactar
-  const volumenCompactar = volumenRellenar * coeficienteComp;
-
-  // Calcular el volumen sobrante o a retirar (esponjamiento - volumen compactado)
-  const volumenSobrante = volumenEsp - volumenCompactar;
-
-  const volumenRellenarFinal = Math.floor((volumenEsp - volumenRellenar))   ;
 
   const radianes = angulo * Math.PI / 180;
   const adyacente = alto / Math.tan(radianes);
@@ -43,10 +35,10 @@ function Calculo({
   const baseMayor = adyacente + banquina;
   const areaTrapecio = ((baseMenor + baseMayor) / 2) * alto;
 
-  const volumen = ((superficieLados + superficieEsquina)).toFixed(2)
-  const volumen1 = (volumen*coeficienteComp).toFixed(2)
-  const volumenCen = (largo*ancho*alto) - volumen
-  const volumenCen1 = (volumenCen*coeficienteComp).toFixed(2)
+  const volumen = ((superficieLados + superficieEsquina)).toFixed(1)
+  const volumen1 = (volumen*coefDecimal2).toFixed(1)
+  const volumenCen = ((largo*ancho*alto) - volumen).toFixed(1)
+  const volumenCen1 = (volumenCen*coefDecimal2).toFixed(1)
 
     
   
@@ -71,16 +63,16 @@ function Calculo({
     }, 0);
 
     setSuperficieEsquina(totalEsquinas);
-  }, [esquinas, setSuperficieEsquina]);
+  }, [esquinas, setSuperficieEsquina,alto]);
 
   useEffect(() => {
     const volumenTotal = superficieLados + superficieEsquina;
   
-    const volumen = volumenTotal.toFixed(2);
-    const volumen1 = (volumenTotal * coeficienteComp).toFixed(2);
+    const volumen = volumenTotal.toFixed(1);
+    const volumen1 = (volumen * coefDecimal2).toFixed(1);
   
-    const volumenCen = (largo * ancho * alto) - volumenTotal;
-    const volumenCen1 = (volumenCen * coeficienteComp).toFixed(2);
+    const volumenCen = ((largo * ancho * alto) - volumenTotal).toFixed(1);
+    const volumenCen1 = (volumenCen * coefDecimal2).toFixed(1);
   
     setVolumenCompensado(Number(volumen1));
     setVolumenCentroCompensado(Number(volumenCen1));
@@ -90,7 +82,7 @@ function Calculo({
     largo, 
     ancho, 
     alto, 
-    coeficienteComp, 
+    coefDecimal2, 
     setVolumenCompensado, 
     setVolumenCentroCompensado
   ]);
@@ -135,16 +127,18 @@ function Calculo({
         return (
           <div key={i}>
             <p><strong>Esquina #{i + 1}</strong></p>
+            <p>Volumen unitario: Lado x ancho x alto³</p>
+            <p>Volumen unitario: {parseFloat(esquina.lado1Ancho)}m x {parseFloat(esquina.lado1Ancho)}m x {alto}m</p>
             <p>Volumen unitario: {volumenUnitario} m³</p>
             <p>Repeticiones: {repeticiones}</p>
             <p>Volumen Total: {volumenTotal.toFixed(1)} m³</p>
-            <hr />
+            
           </div>
         );
       })}
 
-      <h4>Volumen total acumulado de esquinas: {superficieEsquina.toFixed(2)} m³</h4>
-     
+      <h4>Volumen total acumulado de esquinas: {superficieEsquina.toFixed(1)} m³</h4>
+      <hr />
     </div>
 
       <div>
@@ -153,7 +147,8 @@ function Calculo({
         const anchoNum = parseFloat(lado.ancho);
         const repeticiones = parseInt(lado.repeticiones);
         const volumenLado = anchoNum * areaTrapecio;
-        const volumenTotal = anchoNum * areaTrapecio * repeticiones;
+        const volumenTotal =volumenLado * repeticiones;
+        const VT = volumenTotal.toFixed(1)
         const formula = `\\frac{(${baseMenor} + ${lado.ancho})}{2} \\times \\text ${alto} \\times \\text${lado.ancho} = ${volumenLado.toFixed(1)} m³`;
         return (
           <div key={i}>
@@ -161,20 +156,21 @@ function Calculo({
             <div id="formula"></div>
             <div key={i} dangerouslySetInnerHTML={{ __html: katex.renderToString(formula) }} />
             <p>Repeticiones: {repeticiones}</p>
-            <p>Volumen Total: {volumenTotal.toFixed(1)} m³</p>
-            <hr />
+            <p>Volumen Total: {VT} m³</p>
+            
           </div> 
         );
       })}
 
-      <h4>Volumen total acumulado de lados: {superficieLados.toFixed(2)} m³</h4>
+      <h4>Volumen total acumulado de lados: {superficieLados.toFixed(1)} m³</h4>
+      <hr />
     </div>
-    <div  className="volumenTotal">
-
-    <h4>Volumen total lados + esquinas: {volumen} m³</h4>
-    <h4>Volumen total + Esponjamiento: {volumen1} m³</h4>
-    <h4>Volumen Central: {volumenCen} m³</h4>
-    <h4>Volumen Central + Esponjamiento: {volumenCen1} m³</h4>
+      <div  className="volumenTotal">
+      <h4>Coeficiente de Esponjamiento: {coeficiente}</h4>
+      <h4>Volumen total lados + esquinas: {volumen} m³</h4>
+      <h4>Volumen Central: {volumenCen} m³</h4>
+      <h4>Volumen lados + Esponjamiento: {volumen1} m³</h4>
+      <h4>Volumen Central + Esponjamiento: {volumenCen1} m³</h4>
     </div>
       <p></p>
 
