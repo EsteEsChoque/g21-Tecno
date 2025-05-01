@@ -1,42 +1,46 @@
 import React, { useState } from 'react';
+import ModalAyuda from './ModalAyuda'; // asegurate de poner bien la ruta
 
 function Formulario2({
-  banquina, 
+  banquina,
   setBanquina,
-  lados, 
-  setLados, 
-  nuevoLado, 
-  setNuevoLado, 
+  lados,
+  setLados,
+  nuevoLado,
+  setNuevoLado,
   agregarLado,
-  esquinas, 
-  setEsquinas, 
-  nuevaEsquina, 
-  setNuevaEsquina, 
+  esquinas,
+  setEsquinas,
+  nuevaEsquina,
+  setNuevaEsquina,
   agregarEsquina,
-   // <-- asegurate de pasar esta función desde el componente padre
 }) {
-  const [formError, setFormError] = useState('');
-  const mostrarErrorTemporal = (mensaje) => {
-    setFormError(mensaje);
-    setTimeout(() => setFormError(""), 8000);
+  const [ayudaVisible, setAyudaVisible] = useState(false);
+  const [mensajeAyuda, setMensajeAyuda] = useState('');
+
+  const mostrarAyuda = (mensaje) => {
+    setMensajeAyuda(mensaje);
+    setAyudaVisible(true);
   };
 
   return (
     <>
+      {ayudaVisible && (
+        <ModalAyuda
+          mensaje={mensajeAyuda}
+          onClose={() => setAyudaVisible(false)}
+        />
+      )}
+
       {/* Banquina */}
       <div className="form-group">
-      {formError && (
-  <div className="form-error">
-    {formError}
-  </div>
-)}
         <label className="label-con-ayuda">
           Banquina
           <button
             type="button"
             className="btn-ayuda"
             onClick={() =>
-              mostrarErrorTemporal("ℹ️ La banquina es el espacio adicional que se deja entre la excavación y el área de trabajo. Se puede ajustar entre 1 y 2 metros según el terreno.")
+              mostrarAyuda("ℹ️ La banquina es el espacio adicional que se deja entre la excavación y el área de trabajo. Se debe ajustar entre 1 y 2.")
             }
           >?</button>
         </label>
@@ -65,7 +69,7 @@ function Formulario2({
             type="button"
             className="btn-ayuda"
             onClick={() =>
-              mostrarErrorTemporal("ℹ️ Ingresá el ancho del lado (entre 1 y 1.5 m) y dale al botón para guardar ese lado. Si tienes lados diferentes, ve agregándolos.")
+              mostrarAyuda("ℹ️ Ingresá el ancho del lado (entre 1 y 1.5 m) y dale al botón para guardarlo. Si hay lados distintos, agregalos uno por uno.")
             }
           >?</button>
         </label>
@@ -113,7 +117,7 @@ function Formulario2({
             type="button"
             className="btn-ayuda"
             onClick={() =>
-              mostrarErrorTemporal("ℹ️ Ingresá el volumen individual de la esquina (en m³) y dale al botón para guardarla. Si tenés esquinas diferentes, agregalas una por una.")
+              mostrarAyuda("ℹ️ Ingresá los lados de la esquina (en cm) y la cantidad. Si tenés esquinas diferentes, agregalas una por una.")
             }
           >?</button>
         </label>
@@ -164,7 +168,7 @@ function Formulario2({
             </li>
           ))}
         </ul>
-      </div>  
+      </div>
     </>
   );
 }

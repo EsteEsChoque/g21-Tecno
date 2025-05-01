@@ -4,6 +4,8 @@ import Calculo from './Calculo';
 import Costo from './Costo';
 import Muro from './Muro';
 import Recomendaciones from './Recomendaciones';
+import ModalAyuda from './ModalAyuda'; // Ajustá el path si está en otro lugar
+
 import './Submuracion.css';
 
 function Submuracion() {
@@ -54,6 +56,12 @@ function Submuracion() {
   const [grupos, setGruposLocal] = useState(3);
   const [volumenRetroexcavadora, setVolumenRetroexcavadoraLocal] = useState(70);
 
+  const [mostrarAyuda, setMostrarAyuda] = useState(false);
+  const mensajeAyudaSubmuracion = `🧱 Esta página está hecha para calcular submuración.
+  Si empezás a cargar datos sin sentido, claramente saldrán cosas sin sentido.
+
+  💡 Por favor, usá la cabeza y completá con valores coherentes.`;
+
 
   // Manejo del formulario
   const handleFormularioSubmit = (sueloSeleccionado, volumenOriginal, datosSuelo) => {
@@ -75,8 +83,20 @@ function Submuracion() {
   };
  
   return (
+    
     <div>
+      {mostrarAyuda && (
+      <ModalAyuda
+        mensaje={mensajeAyudaSubmuracion}
+        onClose={() => setMostrarAyuda(false)}
+      />
+    )}
+
         <h3>Calculos de Submuración</h3>
+        <button onClick={() => setMostrarAyuda(true)} className="btn-ayuda-global">
+          ¿Cómo funciona?
+        </button>
+
         <Formulario
           setVolumen={setVolumen}
           setProfundidad={setProfundidad}
