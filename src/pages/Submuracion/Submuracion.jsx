@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import Formulario from './Formulario';
 import Calculo from './Calculo';
 import Costo from './Costo';
 import Muro from './Muro';
 import Recomendaciones from './Recomendaciones';
-import ModalAyuda from './ModalAyuda'; // Ajustá el path si está en otro lugar
+import ModalAyuda from './ModalAyuda';
+import AlertaInfo from '../AlertaInfo'; // Ajustá el path si está en otro lugar
 
 import './Submuracion.css';
 
@@ -56,6 +57,13 @@ function Submuracion() {
   const [grupos, setGruposLocal] = useState(3);
   const [volumenRetroexcavadora, setVolumenRetroexcavadoraLocal] = useState(70);
 
+  const [showAlert, setShowAlert] = useState(false);
+
+  useEffect(() => {
+    setShowAlert(true); // Muestra la alerta cuando llegas a la página
+  }, []);
+  
+
   const [mostrarAyuda, setMostrarAyuda] = useState(false);
   const mensajeAyudaSubmuracion = `🧱 Esta página está hecha para calcular submuración.
   Si empezás a cargar datos sin sentido, claramente saldrán cosas sin sentido.
@@ -84,7 +92,13 @@ function Submuracion() {
  
   return (
     
+    
     <div>
+      <div>
+      {showAlert && <AlertaInfo />} {/* Muestra la alerta solo si showAlert es true */}
+      {/* El contenido de Submuración aquí */}
+      <h1>Submuración</h1>
+    </div>
       {mostrarAyuda && (
       <ModalAyuda
         mensaje={mensajeAyudaSubmuracion}
