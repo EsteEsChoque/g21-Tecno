@@ -13,7 +13,7 @@ const AscensorPage = () => {
         <div>
           <h1>Esta parte esta en proceso</h1>
           <h1>Facil de romper con cualquier cosa</h1>
-          
+
             <h1>Gestión de Ascensores</h1>
             <Formularioasc 
             pisosAltos={pisosAltos}
@@ -27,7 +27,7 @@ const AscensorPage = () => {
           />
 
            <h3>Bloques</h3>
-            <Bloques 
+            <Bloques  
             bloques={bloques} 
             setBloques={setBloques} 
 
