@@ -1,5 +1,7 @@
 import React from 'react';
 import './Formulario.css';
+import './Apertura';
+import Apertura from './Apertura';
 
 const Bloques = ({ bloques, setBloques, pisosAltos, pisosBajos }) => {
   // Agrega un nuevo bloque al array
@@ -13,6 +15,12 @@ const Bloques = ({ bloques, setBloques, pisosAltos, pisosBajos }) => {
         ultimoPiso: '',
         poblacion: '',
         velocidad: '',
+        personas:'',
+        cantidad: '',
+        tipoCabina: '',
+        tipoApertura: '',
+        tipoAperturaAutomatica: '',
+        luzLibre: '',
       }
     ]);
   };
@@ -23,8 +31,8 @@ const Bloques = ({ bloques, setBloques, pisosAltos, pisosBajos }) => {
     (_, i) => -pisosBajos + i
   );
 
-   // Función para calcular la velocidad por defecto según el número de pisos
-   const calcularVelocidad = (primerPiso, ultimoPiso) => {
+  // Función para calcular la velocidad por defecto según el número de pisos
+  const calcularVelocidad = (primerPiso, ultimoPiso) => {
     const numPisos = Math.abs(ultimoPiso - primerPiso);
 
     if (numPisos >= 1 && numPisos <= 2) {
@@ -41,7 +49,7 @@ const Bloques = ({ bloques, setBloques, pisosAltos, pisosBajos }) => {
       return 180; // Velocidad mínima de 26 a 35 pisos
     } else if (numPisos >= 36 && numPisos <= 45) {
       return 210; // Velocidad mínima de 36 a 45 pisos
-    } else if (numPisos >= 46 && numPisos <= 60) {
+    } else if (numPisos >= 46 ) {
       return 300; // Velocidad mínima de 46 a 60 pisos
     } else {
       return 0; // En caso de que no esté en un rango válido
@@ -50,7 +58,9 @@ const Bloques = ({ bloques, setBloques, pisosAltos, pisosBajos }) => {
 
   const calcularPisos = (primerPiso, ultimoPiso) => {
     const numPisos = Math.abs(ultimoPiso - primerPiso); 
-    return numPisos}
+    return numPisos;
+  };
+
 
   // Actualiza un campo específico de un bloque
   const actualizarBloque = (index, campo, valor) => {
@@ -110,16 +120,38 @@ const Bloques = ({ bloques, setBloques, pisosAltos, pisosBajos }) => {
                 <option value="Locales, Mercados, Museo, Sala exposición o Restaurantes">Locales, Mercados, Museo, Sala exposición o Restaurantes</option>
                 <option value="Gimnasios, Pista de patinaje, Cancha de bolos, salón de billares">Gimnasios, Pista de patinaje, Cancha de bolos, salón de billares</option>
             </select>
+           
           </label>
+            <Apertura
+                bloque={bloque}
+                index={index}
+                actualizarBloque={actualizarBloque}
+            />
+    
+          <label>
+            Cantidad de Ascensores:
+            <input 
+                type="text"  // Usamos 'text' para evitar la entrada de caracteres no deseados
+                value={bloque.cantidad || ''} // Usa un valor vacío si no hay valor para 'personas'
+                onChange={(e) => {
+                // Filtra caracteres que no sean números
+                const value = e.target.value.replace(/[^0-9]/g, ''); 
+                actualizarBloque(index, 'cantidad', value ? Number(value) : ''); // Actualiza solo con números
+                }}
+                inputMode="numeric" // Esto ayuda en dispositivos móviles a mostrar un teclado numérico
+            />
+            </label>
+
+
 
           <label>
             Primer Piso:
             <select
                 value={bloque.primerPiso}
                 onChange={(e) => {
-                // Al cambiar el primer piso, reseteamos el último piso
-                actualizarBloque(index, 'primerPiso', Number(e.target.value));
-                actualizarBloque(index, 'ultimoPiso', ''); // Resetea el último piso a vacío
+                  // Al cambiar el primer piso, reseteamos el último piso
+                  actualizarBloque(index, 'primerPiso', Number(e.target.value));
+                  actualizarBloque(index, 'ultimoPiso', ''); // Resetea el último piso a vacío
                 }}
             >
                 <option value="">Seleccionar piso</option>
@@ -129,13 +161,21 @@ const Bloques = ({ bloques, setBloques, pisosAltos, pisosBajos }) => {
                 </option>
                 ))}
             </select>
-            </label>
+          </label>
 
           <label>
             Último Piso:
             <select
                 value={bloque.ultimoPiso}
-                onChange={(e) => actualizarBloque(index, 'ultimoPiso', Number(e.target.value))}
+                onChange={(e) => {
+                const ultimoPiso = Number(e.target.value);
+                // Actualiza el valor de último piso
+                actualizarBloque(index, 'ultimoPiso', ultimoPiso);
+                // Recalcula la velocidad automáticamente al cambiar el último piso
+                const nuevaVelocidad = calcularVelocidad(bloque.primerPiso, ultimoPiso);
+                // Actualiza la velocidad del bloque
+                actualizarBloque(index, 'velocidad', nuevaVelocidad);
+                }}
             >
                 <option value="">Seleccionar piso</option>
                 {opcionesUltimoPisoFiltradas(bloque.primerPiso).map((piso) => (
@@ -144,21 +184,21 @@ const Bloques = ({ bloques, setBloques, pisosAltos, pisosBajos }) => {
                 </option>
                 ))}
             </select>
-          </label>
+            </label>
 
-          <label>
+            <label>
             Velocidad del Ascensor (mts/min):
             <input 
-              type="number"
-              step="1"
-              value={bloque.velocidad || calcularVelocidad(bloque.primerPiso, bloque.ultimoPiso)} // Velocidad por defecto
-              onChange={(e) => actualizarBloque(index, 'velocidad', Number(e.target.value))}
-              disabled={deshabilitarCampos(!bloque.ultimoPiso)} // Deshabilitar si bloque.poblacion tiene valor mayor a 0
+                type="number"
+                step="1"
+                value={bloque.velocidad || calcularVelocidad(bloque.primerPiso, bloque.ultimoPiso)} // Velocidad por defecto
+                onChange={(e) => actualizarBloque(index, 'velocidad', Number(e.target.value))}
+                disabled={deshabilitarCampos(!bloque.ultimoPiso)} // Deshabilitar si bloque.poblacion tiene valor mayor a 0
             />
-             {bloque.primerPiso && bloque.ultimoPiso && (
-    <span> - Cantidad de pisos: {calcularPisos(bloque.primerPiso, bloque.ultimoPiso)}</span>
-  )}
-          </label>
+            {bloque.primerPiso && bloque.ultimoPiso && (
+                <span> - Cantidad de pisos: {calcularPisos(bloque.primerPiso, bloque.ultimoPiso)}</span>
+            )}
+            </label>
 
         </div>
       ))}
