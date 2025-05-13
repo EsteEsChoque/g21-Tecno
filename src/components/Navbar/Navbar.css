@@ -1,32 +1,51 @@
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: #333;
-    color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+  flex-wrap: nowrap;  /* No permite que los elementos se envuelvan por defecto */
+}
+
+.navbar ul {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar ul li {
+  margin: 0 15px;
+}
+
+.navbar ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.brand {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.formulario div {
+  margin-bottom: 10px;
+}
+
+/* Media Query para pantallas más pequeñas */
+@media (max-width: 500px) {
+  .navbar {
+      flex-direction: column; /* Los elementos se apilan verticalmente */
+      align-items: center; /* Centra los elementos */
   }
-  
+
   .navbar ul {
-    display: flex;
-    list-style-type: none;
-    margin: 0;
-  } 
-  
+      flex-direction: column; /* Los elementos de la lista se apilan verticalmente */
+      width: 100%;  /* Asegura que los enlaces ocupen todo el ancho */
+      text-align: center; /* Centra los enlaces */
+  }
+
   .navbar ul li {
-    margin: 0 15px;
+      margin: 10px 0;  /* Ajusta el espacio entre los elementos */
   }
-  
-  .navbar ul li a {
-    color: white;
-    text-decoration: none;
-  }
-  
-  .brand {
-    font-size: 1.5em;
-    font-weight: bold;
-  }
-  
-  .formulario div {
-    margin-bottom: 10px;
-  }
-  
+}

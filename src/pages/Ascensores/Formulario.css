@@ -19,6 +19,8 @@
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left:20px;
+  margin-right:20px;
 } 
 
 /* Cada div que contiene un campo */
@@ -57,6 +59,8 @@
 /* Para pantallas pequeñas */
 @media (max-width: 768px) {
   .formulario {
+    margin-left:10px;
+    margin-right:10px;
     grid-template-columns: 1fr; /* En pantallas pequeñas, pasamos a una sola columna */
   }
 }

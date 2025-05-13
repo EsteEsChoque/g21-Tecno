@@ -32,8 +32,9 @@ function Calculo({
   const radianes = angulo * Math.PI / 180;
   const adyacente = alto / Math.tan(radianes);
   const baseMenor = banquina;
-  const baseMayor = adyacente + banquina;
-  const areaTrapecio = ((baseMenor + baseMayor) / 2) * alto;
+  const baseMayor = (adyacente + banquina).toFixed(1);
+  const areaTrapecio = ((parseFloat(baseMenor) + parseFloat(baseMayor)) / 2) * parseFloat(alto);
+console.log(areaTrapecio,"-----------------");
 
   const volumen = ((superficieLados + superficieEsquina)).toFixed(1)
   const volumen1 = (volumen*coefDecimal2).toFixed(1)
@@ -149,7 +150,7 @@ function Calculo({
         const volumenLado = anchoNum * areaTrapecio;
         const volumenTotal =volumenLado * repeticiones;
         const VT = volumenTotal.toFixed(1)
-        const formula = `\\frac{(${baseMenor} + ${lado.ancho})}{2} \\times \\text ${alto} \\times \\text${lado.ancho} = ${volumenLado.toFixed(1)} m³`;
+        const formula = `\\frac{(${baseMenor} + ${baseMayor})}{2} \\times \\text ${alto} \\times \\text${lado.ancho} = ${volumenLado.toFixed(1)} m³`;
         return (
           <div key={i}>
             <h5>Volumen de prisma trapezoidal {i+1}</h5>

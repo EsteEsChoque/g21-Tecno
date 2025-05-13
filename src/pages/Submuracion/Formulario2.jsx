@@ -23,6 +23,17 @@ function Formulario2({
     setAyudaVisible(true);
   };
 
+  const eliminarLado = (index) => {
+    const nuevosLados = lados.filter((_, i) => i !== index);
+    setLados(nuevosLados);
+  };
+  
+  const eliminarEsquina = (index) => {
+    const nuevasEsquinas = esquinas.filter((_, i) => i !== index);
+    setEsquinas(nuevasEsquinas);
+  };
+
+
   return (
     <>
       {ayudaVisible && (
@@ -104,7 +115,10 @@ function Formulario2({
         <button type="button" onClick={agregarLado}>Agregar Lado</button>
         <ul>
           {lados.map((l, i) => (
-            <li key={i}>Ancho: {l.ancho} m, Cantidad: {l.repeticiones}</li>
+             <li key={i}>
+              Ancho: {l.ancho} m, Cantidad: {l.repeticiones}
+              <button type="button" onClick={() => eliminarLado(i)}>❌</button>
+            </li>
           ))}
         </ul>
       </div>
@@ -163,8 +177,9 @@ function Formulario2({
         <button type="button" onClick={agregarEsquina}>Agregar Esquina</button>
         <ul>
           {esquinas.map((e, i) => (
-            <li key={i}>
+              <li key={i}>
               Lado 1: {e.lado1Ancho} cm, Lado 2: {e.lado2Ancho} cm, Repeticiones: {e.repeticiones}
+              <button type="button" onClick={() => eliminarEsquina(i)}>❌</button>
             </li>
           ))}
         </ul>
