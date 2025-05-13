@@ -17,13 +17,19 @@
   
 
   .volumenTotal {
-    width: 50%; 
+    width: 80%; 
     border: 4px solid black;
     align-items: center;
-    margin-left:20px;
+    margin-left:10%;
 
   }
-  
+  .volumenTotal2 {
+    width: 90%; 
+    border: 4px solid black;
+    align-items: center;
+    margin-left: 5%;
+    /* Ajusta este valor según lo que necesites */
+}
   /* Estilos para los resultados */
   .resultados h3 {
     margin-bottom: 10px;

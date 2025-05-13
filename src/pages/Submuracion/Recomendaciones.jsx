@@ -7,8 +7,8 @@ function Recomendaciones({ datosSuelo }) {
   }
 
   return (
-    <div>
-        <hr />
+    <div className="volumenTotal2">
+     <h2> RECOMENDACIÓN</h2>
         <p>
           Para realizar una submuración segura y eficiente, es esencial conocer el tipo de terreno con el que estamos trabajando. En este caso, seleccionaste un suelo <strong>{datosSuelo.suelo}</strong>.
         </p>

@@ -125,6 +125,12 @@ function Formulario({
       return; // Evita el envío del formulario si falta algún campo
     }
 
+     // Validar que al menos uno de los lados o esquinas se haya agregado
+  if ((lados.length === 0 || esquinas.length === 0) && !nuevaEsquina.lado1Ancho && !nuevoLado.ancho) {
+    setFormError('⚠️ Debes agregar al menos un lado o una esquina.');
+    return;
+  }
+
     setFormError(''); // Limpiar error si todos los campos están completos
 
     const volumenCalculado = alto * largo * ancho;
